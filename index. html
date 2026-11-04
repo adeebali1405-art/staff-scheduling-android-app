@@ -1,0 +1,973 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>Shiftly | Staff Scheduling By M.Adeeb Ali Softwer Developer</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+/* =========================
+   1. GLOBAL DESIGN SYSTEM
+========================= */
+:root {
+  --primary: #7165f3;
+  --primary-light: #eeeaff;
+  --secondary: #18b995;
+  --bg: #f5f6fb;
+  --surface: #ffffff;
+  --text: #20243a;
+  --muted: #8b91a7;
+  --border: #eceef4;
+  --danger: #f06475;
+  --warning: #f2ae4c;
+  --shadow: 0 10px 35px rgba(35, 40, 80, .06);
+  --radius: 18px;
+}
+
+body.dark {
+  --bg: #111525;
+  --surface: #1c2336;
+  --text: #f3f4fa;
+  --muted: #9da5bc;
+  --border: #30384e;
+  --primary-light: #302c53;
+  --shadow: 0 10px 35px rgba(0,0,0,.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background .3s, color .3s;
+  min-height: 100vh;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button { cursor: pointer; }
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =========================
+   2. SIDEBAR
+========================= */
+.sidebar {
+  width: 255px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 27px 18px;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 12px;
+  margin-bottom: 43px;
+}
+
+.brand-icon {
+  background: linear-gradient(135deg,#8174ff,#5c4de0);
+  color: white;
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+}
+
+.brand h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand span { color: var(--primary); }
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  color: var(--muted);
+  padding: 0 13px;
+  margin-bottom: 13px;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 14px;
+  color: var(--muted);
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.nav-item i {
+  width: 19px;
+  font-size: 16px;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.help-card {
+  padding: 17px;
+  border-radius: 15px;
+  background: linear-gradient(135deg,#7568f5,#5347d4);
+  color: white;
+}
+
+.help-card h4 { font-size: 13px; margin-bottom: 7px; }
+.help-card p { font-size: 11px; opacity: .8; line-height: 1.6; }
+
+/* =========================
+   3. MAIN CONTENT
+========================= */
+.main {
+  margin-left: 255px;
+  width: calc(100% - 255px);
+  padding: 28px 34px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 33px;
+  gap: 15px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbar h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.topbar p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.icon-btn:hover { color: var(--primary); }
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: #e5dcff;
+  color: #6958d8;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+}
+
+.menu-toggle { display: none; }
+
+/* =========================
+   4. GENERAL COMPONENTS
+========================= */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn .25s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 27px 0 17px;
+  gap: 12px;
+}
+
+.section-heading h2 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.btn {
+  border: none;
+  border-radius: 11px;
+  padding: 11px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: .2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 5px 14px rgba(113,101,243,.2);
+}
+
+.btn-primary:hover { background: #5d50db; transform: translateY(-2px); }
+
+.btn-light {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.btn-danger {
+  background: #fff0f1;
+  color: var(--danger);
+}
+
+body.dark .btn-danger { background: #412a3a; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 21px;
+  min-width: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-icon {
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+}
+
+.purple { background: #eeeaff; color: #7465ef; }
+.green { background: #e1f8ef; color: #19b68d; }
+.orange { background: #fff2df; color: #e8a344; }
+.blue { background: #e6f0ff; color: #538de9; }
+
+.stat-card h3 {
+  font-size: 27px;
+  font-weight: 800;
+  margin: 17px 0 4px;
+}
+
+.stat-card p { color: var(--muted); font-size: 12px; }
+
+.stat-change {
+  font-size: 10px;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+/* =========================
+   5. DASHBOARD
+========================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 17px;
+}
+
+.chart-card { min-height: 290px; }
+
+.chart-bars {
+  height: 185px;
+  display: flex;
+  align-items: end;
+  justify-content: space-around;
+  gap: 12px;
+  padding-top: 22px;
+}
+
+.chart-column {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.bar {
+  width: min(34px,80%);
+  background: linear-gradient(180deg,#9388ff,#6657e8);
+  border-radius: 8px 8px 3px 3px;
+  transition: height .4s;
+  min-height: 4px;
+}
+
+.chart-column span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  margin-top: 20px;
+}
+
+.team-member {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.member-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.member-info { flex: 1; min-width: 0; }
+.member-info h4 { font-size: 12px; }
+.member-info p { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+.status {
+  font-size: 10px;
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status.present { color: #13a67f; background: #e1f8ef; }
+.status.absent { color: #e05c6b; background: #ffebed; }
+.status.late { color: #d7942d; background: #fff2df; }
+
+/* =========================
+   6. TABLES & FILTERS
+========================= */
+.table-tools {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 17px;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 180px;
+  position: relative;
+}
+
+.search-box i {
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  color: var(--muted);
+}
+
+.search-box input {
+  padding-left: 38px;
+}
+
+input, select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 11px 12px;
+  border-radius: 10px;
+  outline: none;
+  font-size: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(113,101,243,.09);
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 590px;
+}
+
+th {
+  color: var(--muted);
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 13px 12px;
+  background: var(--bg);
+}
+
+td {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 12px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+.employee-cell {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.employee-cell strong { display: block; font-size: 11px; }
+.employee-cell small { color: var(--muted); font-size: 10px; }
+
+.actions { display: flex; gap: 6px; }
+
+.action-btn {
+  width: 29px;
+  height: 29px;
+  border: none;
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.action-btn:hover { color: var(--primary); }
+
+/* =========================
+   7. SCHEDULE
+========================= */
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.week-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.week-navigation button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 9px;
+  width: 34px;
+  height: 34px;
+}
+
+.week-navigation strong { font-size: 13px; }
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(7,minmax(125px,1fr));
+  gap: 9px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.day-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  min-height: 220px;
+  padding: 11px;
+}
+
+.day-title {
+  text-align: center;
+  padding: 7px 0 13px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+
+.day-title strong { font-size: 11px; display: block; }
+.day-title span { color: var(--muted); font-size: 10px; }
+
+.shift-card {
+  padding: 10px;
+  border-radius: 9px;
+  margin-bottom: 8px;
+  border-left: 3px solid;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.shift-card strong { display: block; font-size: 10px; margin-bottom: 5px; }
+.shift-card span { color: var(--muted); font-size: 9px; }
+.shift-morning { background: #fff4df; border-color: #efa93f; }
+.shift-evening { background: #eeeaff; border-color: #7665ef; }
+.shift-night { background: #e6efff; border-color: #538de9; }
+
+body.dark .shift-morning { background: #40352b; }
+body.dark .shift-evening { background: #302d4c; }
+body.dark .shift-night { background: #29354c; }
+
+/* =========================
+   8. ATTENDANCE
+========================= */
+.attendance-summary {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 13px;
+  margin-bottom: 18px;
+}
+
+/* =========================
+   9. MODAL
+========================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(12,15,30,.55);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  width: 100%;
+  max-width: 470px;
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 25px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: fadeIn .2s;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 23px;
+}
+
+.modal-header h2 { font-size: 18px; }
+
+.close-btn {
+  background: var(--bg);
+  color: var(--muted);
+  border: none;
+  border-radius: 9px;
+  width: 34px;
+  height: 34px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-group { margin-bottom: 15px; }
+.form-group.full { grid-column: 1/-1; }
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 13px;
+}
+
+/* =========================
+   10. TOAST
+========================= */
+.toast {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #20243a;
+  color: white;
+  padding: 14px 19px;
+  border-radius: 12px;
+  font-size: 12px;
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: .3s;
+  box-shadow: var(--shadow);
+}
+
+.toast.show { opacity: 1; transform: translateY(0); }
+
+.empty-state {
+  text-align: center;
+  padding: 30px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* =========================
+   11. RESPONSIVE DESIGN
+========================= */
+@media(max-width:1100px) {
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media(max-width:760px) {
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: var(--shadow);
+  }
+
+  .sidebar.open { transform: translateX(0); }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding: 20px 15px 90px;
+  }
+
+  .menu-toggle { display: grid; }
+
+  .topbar { margin-bottom: 24px; }
+  .topbar h1 { font-size: 18px; }
+  .topbar p { font-size: 10px; }
+  .top-actions { gap: 7px; }
+
+  .icon-btn, .avatar { width: 37px; height: 37px; }
+
+  .stats-grid { gap: 10px; }
+  .stat-card { padding: 14px; }
+  .stat-card h3 { font-size: 22px; }
+  .stat-card p { font-size: 10px; }
+
+  .attendance-summary { grid-template-columns: 1fr; }
+
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    z-index: 15;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 5px;
+  }
+
+  .mobile-nav button {
+    border: none;
+    background: none;
+    color: var(--muted);
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .mobile-nav button.active { color: var(--primary); }
+  .mobile-nav i { font-size: 17px; }
+
+  .section-heading { margin-top: 22px; }
+}
+
+@media(min-width:761px) {
+  .mobile-nav { display: none; }
+}
+
+@media(max-width:420px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: auto; }
+  .stat-icon { width: 36px; height: 36px; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-icon"><i class="fa-solid fa-calendar-check"></i></div>
+    <h2>shift<span>ly.</span></h2>
+  </div>
+
+  <div class="nav-label">WORKSPACE</div>
+
+  <nav class="nav-menu">
+    <button class="nav-item active" data-page="dashboard">
+      <i class="fa-solid fa-chart-pie"></i> Dashboard
+    </button>
+    <button class="nav-item" data-page="employees">
+      <i class="fa-solid fa-users"></i> Employees
+    </button>
+    <button class="nav-item" data-page="schedule">
+      <i class="fa-solid fa-calendar-days"></i> Schedule
+    </button>
+    <button class="nav-item" data-page="attendance">
+      <i class="fa-solid fa-clock"></i> Attendance
+    </button>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="nav-label">PREFERENCES</div>
+    <button class="nav-item" id="themeSidebar">
+      <i class="fa-solid fa-moon"></i> Dark Mode
+    </button>
+
+    <div class="help-card">
+      <h4><i class="fa-solid fa-circle-question"></i> Need Help?</h4>
+      <p>Manage your team schedules easily with Shiftly.</p>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="icon-btn menu-toggle" id="menuToggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <p id="currentDate">Welcome back! Here's your team overview.</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="themeToggle" title="Toggle theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="icon-btn" id="notificationBtn" title="Notifications">
+        <i class="fa-regular fa-bell"></i>
+      </button>
+      <div class="avatar">AD</div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD PAGE -->
+  <section class="page active" id="dashboard">
+
+    <div class="stats-grid">
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon purple"><i class="fa-solid fa-users"></i></div>
+          <span class="stat-change">Team</span>
+        </div>
+        <h3 id="totalEmployees">0</h3>
+        <p>Total Employees</p>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon green"><i class="fa-solid fa-user-check"></i></div>
+          <span class="stat-change">Today</span>
+        </div>
+        <h3 id="presentCount">0</h3>
+        <p>Present Today</p>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon orange"><i class="fa-solid fa-calendar-xmark"></i></div>
+          <span class="stat-change">Today</span>
+        </div>
+        <h3 id="absentCount">0</h3>
+        <p>Absent Today</p>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon blue"><i class="fa-solid fa-calendar-check"></i></div>
+          <span class="stat-change">Planned</span>
+        </div>
+        <h3 id="shiftCount">0</h3>
+        <p>Scheduled Shifts</p>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h2>Team Overview</h2>
+        <p>Monitor your workforce at a glance.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openShiftModal()">
+        <i class="fa-solid fa-plus"></i> Add Shift
+      </button>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="card chart-card">
+        <div class="section-heading" style="margin-top:0">
+          <div>
+            <h2>Weekly Schedule</h2>
+            <p>Shifts scheduled this week</p>
+          </div>
+          <i class="fa-solid fa-chart-column" style="color:var(--primary)"></i>
+        </div>
+        <div class="chart-bars" id="weeklyChart"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-heading" style="margin-top:0">
+          <div>
+            <h2>Team Members</h2>
+            <p>Your employee directory</p>
+          </div>
+          <button class="btn btn-light" onclick="navigate('employees')">View All</button>
+        </div>
+        <div class="team-list" id="teamPreview"></div>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h2>Upcoming Shifts</h2>
+        <p>Recently scheduled employee shifts</p>
+      </div>
+      <button class="btn btn-light" onclick="navigate('schedule')">View Schedule</button>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>EMPLOYEE</th>
+              <th>DATE</th>
+              <th>SHIFT</th>
+              <th>TIME</th>
+            </tr>
+          </thead>
+          <tbody id="upcomingTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMPLOYEES PAGE -->
+  <section class="page" id="employees">
+    <div class="section-heading" style="margin-top:0">
+      <div>
+        <h2>Employee Directory</h2>
+        <p>Manage your team members and their details.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openEmployeeModal()">
+        <i class="fa-solid fa-plus"></i> Add Employee
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="table-tools">
+        <div class="search-box">
+      
